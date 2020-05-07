@@ -5,13 +5,16 @@ Blog on GitHub with Hexo and Icarus theme
 
 # \*\*\* WIP \*\*\*
 
-I will not be thorough, just dot the guidelines, and changes I had to make to the References below, due to updated software and my specific Linux host OS (Fedora 23).
+I will not be thorough, just dot the guidelines, and changes I had to make to the References below, due to updated software and my specific Linux host OS (Fedora 23). For additional information links are provided in each chapter.
 
 1.  [Prerequisites](#1.-Prerequisites)
     -   [Install Git](#Install-Git)
     -   [Install Node.js](#Install-Node.js)
     -   [Install Hexo](#Install-Hexo)
 2.  [Setting up Hexo with GitHub](#2.-Setting-up-Hexo-with-GitHub)
+    -   [Setup a blog](#Setup-a-blog)
+    -   [Install a theme](#Install-a-theme)
+    -   [Edit YAML configuration files ](#Edit-YAML-configuration-files)
 3.  [References and Credits](#3.-References-and-Credits)
 4.  [Summary](#4.-Summary)
 
@@ -76,6 +79,7 @@ Once all the requirements are installed, you can install Hexo with npm. Detailed
 ```shell
 npm install -g hexo-cli
 ```
+
 This is the output:
 
 ```shell
@@ -100,25 +104,95 @@ If you did it right you should be able to access the webpage [https://{github_us
 
 If you need extra help detailed procedure is explained in "Creating a GitHub Pages site" ([https://help.github.com/en/github/working-with-github-pages/creating-a-github-pages-site](https://help.github.com/en/github/working-with-github-pages/creating-a-github-pages-site)).
 
-Setting up Hexo with GitHub
+## 2. Setting up Hexo with GitHub
 
-Setup a blog
+### Setup a blog
 
-$ hexo init {blogname}
-$ cd {blogname}
-$ npm i
-$ git init
+We will generate the a {blogname} folder and install dependencies with the following commands:
 
-This will generate the {blogname} folder and install dependencies.
-Install a theme
+```shell
+hexo init {blogname}
+cd {blogname}
+npm i
+git init
+```
+> NOTE: In our case the {blogname} will be the previously created repository ({github_user_name}.github.io)
 
-Browse here to find out something cool.
+More information of Hexo commands here [https://hexo.io/docs/commands](https://hexo.io/docs/commands)
 
-Once you decide your mind, fork it to customize it or just get the github repo url from the theme info.
+This is the output:
 
-ex) https://github.com/ppoffice/hexo-theme-minos
+```shell
+[barond@fedora BLOG]$ hexo init barondandi.github.io
+INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git
+Cloning into '/home/barond/BLOG/barondandi.github.io'...
+remote: Enumerating objects: 30, done.
+remote: Counting objects: 100% (30/30), done.
+remote: Compressing objects: 100% (24/24), done.
+remote: Total 161 (delta 12), reused 12 (delta 4), pack-reused 131
+Receiving objects: 100% (161/161), 31.79 KiB | 452.00 KiB/s, done.
+Resolving deltas: 100% (74/74), done.
+Submodule 'themes/landscape' (https://github.com/hexojs/hexo-theme-landscape.git) registered for path 'themes/landscape'
+Cloning into '/home/barond/BLOG/barondandi.github.io/themes/landscape'...
+remote: Enumerating objects: 4, done.        
+remote: Counting objects: 100% (4/4), done.        
+remote: Compressing objects: 100% (4/4), done.        
+remote: Total 1067 (delta 0), reused 0 (delta 0), pack-reused 1063        
+Receiving objects: 100% (1067/1067), 3.22 MiB | 3.84 MiB/s, done.
+Resolving deltas: 100% (585/585), done.
+Submodule path 'themes/landscape': checked out '73a23c51f8487cfcd7c6deec96ccc7543960d350'
+INFO  Install dependencies
+npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+> ejs@2.7.4 postinstall /home/vfranco/zzz_Private/DOCs/BLOG/barondandi.github.io/node_modules/ejs
+> node ./postinstall.js
+Thank you for installing EJS: built with the Jake JavaScript build tool (https://jakejs.com/)
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@~2.1.2 (node_modules/chokidar/node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+added 253 packages from 450 contributors and audited 470 packages in 8.241s
+5 packages are looking for funding
+  run `npm fund` for details
+found 1 low severity vulnerability
+  run `npm audit fix` to fix them, or `npm audit` for details
+INFO  Start blogging with Hexo!
 
-$ git submodule add {theme-github-url} themes/{theme-name}
+[barond@fedora BLOG]$ cd barondandi.github.io
+
+[barond@fedora barondandi.github.io]$ npm i
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.1.3 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+audited 470 packages in 1.3s
+5 packages are looking for funding
+  run `npm fund` for details
+found 1 low severity vulnerability
+  run `npm audit fix` to fix them, or `npm audit` for details
+
+[barond@fedora barondandi.github.io]$ git init
+Initialized empty Git repository in /home/vfranco/zzz_Private/DOCs/BLOG/barondandi.github.io/.git/
+```
+
+## Install a theme
+
+You have a lot of Hexo themes to choose from here [https://hexo.io/themes/](https://hexo.io/themes/).
+
+Once you decide your mind, fork it to customize it or just get the GitHub repo url from the theme info.
+
+```shell
+git submodule add {theme-github-url} themes/{theme-name}
+```
+You have the installation instructions inside each of the themes, for example, you could check this one: [https://github.com/klugjo/hexo-theme-clean-blog](https://github.com/klugjo/hexo-theme-clean-blog)
+
+I will be using another theme: [https://github.com/ppoffice/hexo-theme-icarus](https://github.com/ppoffice/hexo-theme-icarus)
+
+You can find detailed installation instructions in "Getting Started with Icarus" ([https://blog.zhangruipeng.me/hexo-theme-icarus/uncategorized/getting-started-with-icarus/](https://blog.zhangruipeng.me/hexo-theme-icarus/uncategorized/getting-started-with-icarus/))
+
+We will install Icarus as a Git submodule with the following command:
+```shell
+git submodule add https://github.com/ppoffice/hexo-theme-icarus.git themes/icarus
+```
+
+### Edit YAML configuration files
 
 Copy \_config.yml.example to \_config.yml
 
@@ -218,7 +292,7 @@ Happy posting!
 __
 
 
-## References and Credits
+## 3. References and Credits
 
 This document is based on the following resources. I really thank the authors for sharing their knowledge and trouble:
 
@@ -230,6 +304,6 @@ This document is based on the following resources. I really thank the authors fo
 -   github pages - [https://pages.github.com/](https://pages.github.com/)
 
 
-## 7. Summary
+## 4. Summary
 
 -   **Objetive:** Simple yet powerful blog deployment using static GitHub Pages service.
