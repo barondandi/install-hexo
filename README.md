@@ -3,7 +3,7 @@ Blog on GitHub with Hexo and Icarus theme
 
 > I wanted to create a simple blog for documentation and how-to tutorials. I would be writing in markup language, as I am using GitHub repositories. I would also like to have automated the posting dates, menus, tags, navigation and have an adapted view for mobile devices.
 
-I will not be thorough, just dot the guidelines, and changes I had to make to the References below, due to updated software and my specific Linux host OS (Fedora 23). For additional information, links are provided in each chapter.
+I will not be thorough, just dot the guidelines and changes I had to make to the references below, due to updated software and my specific Linux host OS (Fedora 23). For additional information, links are provided in each chapter.
 
 1.  [Prerequisites](#1.-Prerequisites)
     -   [Install Git](#Install-Git)
