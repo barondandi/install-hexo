@@ -3,8 +3,6 @@ Blog on GitHub with Hexo and Icarus theme
 
 > I wanted to create a simple blog for documentation and how-to I would be writing in markup language, as GitHub repositories. I would also like to have automated the posting dates, menus, tags, navigation and adapted view for mobile devices.
 
-# \*\*\* WIP \*\*\*
-
 I will not be thorough, just dot the guidelines, and changes I had to make to the References below, due to updated software and my specific Linux host OS (Fedora 23). For additional information links are provided in each chapter.
 
 1.  [Prerequisites](#1.-Prerequisites)
@@ -15,6 +13,9 @@ I will not be thorough, just dot the guidelines, and changes I had to make to th
     -   [Setup a blog](#Setup-a-blog)
     -   [Install a theme](#Install-a-theme)
     -   [Edit YAML configuration files](#Edit-YAML-configuration-files)
+    -   [Deploy the blog](#Deploy-the-blog)
+    -   [Add the source to the GitHub repository (optional)](#Add-the-source-to-the-GitHub-repository-(optional))
+    -   [Deploy a new post](#Deploy-a-new-post)
 3.  [References and Credits](#3.-References-and-Credits)
 4.  [Summary](#4.-Summary)
 
@@ -144,17 +145,13 @@ Submodule path 'themes/landscape': checked out '73a23c51f8487cfcd7c6deec96ccc754
 INFO  Install dependencies
 npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
 npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
-> ejs@2.7.4 postinstall /home/vfranco/zzz_Private/DOCs/BLOG/barondandi.github.io/node_modules/ejs
+> ejs@2.7.4 postinstall /home/vfranco/BLOG/barondandi.github.io/node_modules/ejs
 > node ./postinstall.js
 Thank you for installing EJS: built with the Jake JavaScript build tool (https://jakejs.com/)
 npm notice created a lockfile as package-lock.json. You should commit this file.
 npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@~2.1.2 (node_modules/chokidar/node_modules/fsevents):
 npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
 added 253 packages from 450 contributors and audited 470 packages in 8.241s
-5 packages are looking for funding
-  run `npm fund` for details
-found 1 low severity vulnerability
-  run `npm audit fix` to fix them, or `npm audit` for details
 INFO  Start blogging with Hexo!
 
 [barond@fedora BLOG]$ cd barondandi.github.io
@@ -163,13 +160,9 @@ INFO  Start blogging with Hexo!
 npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.1.3 (node_modules/fsevents):
 npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
 audited 470 packages in 1.3s
-5 packages are looking for funding
-  run `npm fund` for details
-found 1 low severity vulnerability
-  run `npm audit fix` to fix them, or `npm audit` for details
 
 [barond@fedora barondandi.github.io]$ git init
-Initialized empty Git repository in /home/vfranco/zzz_Private/DOCs/BLOG/barondandi.github.io/.git/
+Initialized empty Git repository in /home/vfranco/BLOG/barondandi.github.io/.git/
 ```
 
 ## Install a theme
@@ -203,111 +196,458 @@ We start by editing the \_config.yml file in the main folder. A description of a
 
 Some themes may have an example configuration file, so we would start by copying that theme example file to the `_config.yml` file in the theme folder:
 
-´´´Shell
-cp themes/{theme-name}/\_config.yml.example themes/{theme-name}/\_config.yml
-´´´
+```shell
+cp themes/{theme-name}/_config.yml.example themes/{theme-name}/_config.yml
+```
+> NOTE: Some themes may differ on \_config.yml.example file name. Refer to the theme docs. In our case, Icarus’ default theme configuration file is themes/icarus/\_config.yml, so there is nothing to do (if you don't find it, it will be created during deployment).
 
+Now we need to **update \_config.yml** on the project root folder **to use newly installed theme**. (Don't get confused with the theme config file on the theme folder).
 
+```shell
+nano _config.yml
+```
+We look for the "theme:" attribute and change it. In our case, I will be changing the default `theme: landscape` for `theme: icarus`.
 
+This is the aspect of that part of the \_config.yml configuration file:
 
-Next, activate Icarus in your site’s _config.yml file:
-_config.yml
+```
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
 theme: icarus
+```
 
-or use the hexo command to change the theme to Icarus:
-Shell
-hexo config theme icarus
+Other option is to use the hexo command to change the theme to Icarus:
 
+```Shell
+hexo config theme {theme-name}
+```
 
+Now we **configure blog parameters and deployment information**:
 
-
-
-
-Update _config.yml to use newly installed theme. (Don't get confused with the theme config file)
-
-1
+We keep on editing \_config.yml in root repository folder (Don't get confused with the theme config file), and update blog info as desired.
 
 
+```shell
+nano _config.yml
+```
 
-$ vi _config.yml
+This is the aspect of that part of the \_config.yml configuration file:
 
-Find theme attribute and change it.
-ex) theme: hueman
-
-
-theme: {theme-name}
-
-Setup blog & deploy info
-
-Edit _config.yml in root folder. (Don't get confused with the theme config file)
-
-
-$ vi _config.yml
-
-Update blog info as desired.
-Below is my own for instance.
-
-
-title: CodePaste
-subtitle:
-description:
-author: Joshua Youngjae Ji
+```
+# Site
+title: Baron D Blog
+subtitle: ''
+description: ''
+keywords:
+author: Baron D
 language: en
-timezone: America/Los_Angeles
+timezone: Europe/Madrid
 
-Add below code at the bottom of the file for deploy on github repo.
+# URL
+url: https://barondandi.github.io/
+```
 
+Add below code at the bottom of the file for deploy on github repo ([https://hexo.io/docs/one-command-deployment](https://hexo.io/docs/one-command-deployment)).
 
+```
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
   repo: {your github repo url}
   branch: master
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+```
+Now it is a good time to review and modify the theme themes/{theme-name}/\_config.yml file in the theme folder. for this, refer to the theme docs.
 
-Deploy the blog
+> In our case, Icarus theme had resources missing, but they will be created during the first deployment, and we will revisit this point afterwards.
 
+### Deploy the blog
 
-$ npm i -S hexo-deployer-git
+Now we can **deploy the blog**:
+
+```shell
+npm i -S hexo-deployer-git
+hexo deploy
+```
+In our case we had some issues due to missing dependencies, but we run the specified command and had it corrected. This is the output:
+
+```shell
+[barond@fedora barondandi.github.io]$ npm i -S hexo-deployer-git
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.1.3 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
++ hexo-deployer-git@2.1.0
+added 1 package from 1 contributor and audited 570 packages in 3.717s
+
+[barond@fedora barondandi.github.io]$ hexo deploy
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+ERROR Package bulma-stylus is not installed.
+ERROR Package hexo-component-inferno is not installed.
+ERROR Package hexo-renderer-inferno is not installed.
+ERROR Package inferno is not installed.
+ERROR Package inferno-create-element is not installed.
+ERROR Please install the missing dependencies your Hexo site root directory:
+ERROR npm install --save bulma-stylus@0.8.0 hexo-component-inferno@^0.2.4 hexo-renderer-inferno@^0.1.3 inferno@^7.3.3 inferno-create-element@^7.3.3
+
+[barond@fedora barondandi.github.io]$npm install --save bulma-stylus@0.8.0 hexo-component-inferno@^0.2.4 hexo-renderer-inferno@^0.1.3 inferno@^7.3.3 inferno-create-element@^7.3.3
+> inferno@7.4.2 postinstall /home/vfranco/BLOG/barondandi.github.io/node_modules/inferno
+> opencollective-postinstall
+Thank you for using inferno!
+If you rely on this package, please consider supporting our open collective:
+> https://opencollective.com/inferno/donate
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.1.3 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
++ inferno-create-element@7.4.2
++ hexo-renderer-inferno@0.1.3
++ hexo-component-inferno@0.2.5
++ bulma-stylus@0.8.0
++ inferno@7.4.2
+added 167 packages from 79 contributors and audited 2626 packages in 22.329s
+
+[barond@fedora barondandi.github.io]$ hexo deploy
+Inferno is in development mode.
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+INFO  === Checking the configuration file ===
+WARN  /home/barond/BLOG/barondandi.github.io/themes/icarus/_config.yml is not found. We are creating one for you...
+INFO  You may add '--icarus-dont-generate-config' to prevent creating the configuration file.
+INFO  /home/barond/BLOG/barondandi.github.io/themes/icarus/_config.yml created successfully.
+INFO  === Registering Hexo extensions ===
+INFO  Start processing
+INFO  Files loaded in 2.02 s
+INFO  Generated: content.json
+INFO  Generated: index.html
+INFO  Generated: js/algolia.js
+INFO  Generated: js/google_cse.js
+INFO  Generated: js/insight.js
+INFO  Generated: archives/index.html
+INFO  Generated: categories/index.html
+INFO  Generated: tags/index.html
+INFO  Generated: img/avatar.png
+INFO  Generated: js/animation.js
+INFO  Generated: js/main.js
+INFO  Generated: js/back_to_top.js
+INFO  Generated: img/favicon.svg
+INFO  Generated: img/thumbnail.svg
+INFO  Generated: img/razor-top-black.svg
+INFO  Generated: img/og_image.png
+INFO  Generated: img/logo.svg
+INFO  Generated: img/razor-bottom-black.svg
+INFO  Generated: archives/2020/05/index.html
+INFO  Generated: archives/2020/index.html
+INFO  Generated: css/cyberpunk.css
+INFO  Generated: css/default.css
+INFO  Generated: css/style.css
+INFO  Generated: 2020/05/08/hello-world/index.html
+INFO  24 files generated in 3.72 s
+INFO  Deploying: git
+INFO  Setting up Git deployment...
+Initialized empty Git repository in /home/barond/BLOG/barondandi.github.io/.deploy_git/.git/
+[master (root-commit) 51404b1] First commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 placeholder
+INFO  Clearing .deploy_git folder...
+INFO  Copying files from public folder...
+INFO  Copying files from extend dirs...
+[master 10af56e] Site updated: 2020-05-08 02:56:51
+ 25 files changed, 35831 insertions(+)
+ create mode 100644 2020/05/08/hello-world/index.html
+ create mode 100644 archives/2020/05/index.html
+ create mode 100644 archives/2020/index.html
+ create mode 100644 archives/index.html
+ create mode 100644 categories/index.html
+ create mode 100644 content.json
+ create mode 100644 css/cyberpunk.css
+ create mode 100644 css/default.css
+ create mode 100644 css/style.css
+ create mode 100644 img/avatar.png
+ create mode 100644 img/favicon.svg
+ create mode 100644 img/logo.svg
+ create mode 100644 img/og_image.png
+ create mode 100644 img/razor-bottom-black.svg
+ create mode 100644 img/razor-top-black.svg
+ create mode 100644 img/thumbnail.svg
+ create mode 100644 index.html
+ create mode 100644 js/algolia.js
+ create mode 100644 js/animation.js
+ create mode 100644 js/back_to_top.js
+ create mode 100644 js/google_cse.js
+ create mode 100644 js/insight.js
+ create mode 100644 js/main.js
+ delete mode 100644 placeholder
+ create mode 100644 tags/index.html
+Username for 'https://github.com': barondandi
+Password for 'https://barondandi@github.com':
+Enumerating objects: 40, done.
+Counting objects: 100% (40/40), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (31/31), done.
+Writing objects: 100% (40/40), 125.20 KiB | 5.96 MiB/s, done.
+Total 40 (delta 8), reused 0 (delta 0)
+remote: Resolving deltas: 100% (8/8), done.
+To https://github.com/barondandi/barondandi.github.io.git
+ + b309212...10af56e HEAD -> master (forced update)
+Branch 'master' set up to track remote branch 'master' from 'https://github.com/barondandi/barondandi.github.io.git'.
+INFO  Deploy done: git
+```
+At this point, you should be able to see your blog at [http://{blogname}.github.io](http://{blogname}.github.io).
+
+Now we may want to edit the theme configuration file on themes/{theme-name}\_config.yml. For our chosen theme, detailed information is in the "Icarus User Guide - Configuring the Theme" ([https://blog.zhangruipeng.me/hexo-theme-icarus/Configuration/icarus-user-guide-configuring-the-theme/](https://blog.zhangruipeng.me/hexo-theme-icarus/Configuration/icarus-user-guide-configuring-the-theme/))
+
+```shell
+nano themes/{theme-name}/_config.yml
+```
+
+### Add the source to the GitHub repository (optional)
+
+Optionally, you might want to maintain a different version of the code, you could make another branch and push the commits there instead of to the default "master" branch.
+
+We will be creating another branch called "source" and pushing there the commits.
+
+```shell
+git remote add origin {your-git-repo-url}
+git checkout -b source
+git push origin source
+```
+
+This is the output:
+
+```shell
+[barond@fedora barondandi.github.io]$ git remote add origin https://github.com/barondandi/barondandi.github.io.git
+
+[barond@fedora barondandi.github.io]$ git checkout -b source
+Switched to a new branch 'source'
+
+[barond@fedora barondandi.github.io]$ git push origin source
+Username for 'https://github.com': barondandi
+Password for 'https://barondandi@github.com':
+Enumerating objects: 120, done.
+Counting objects: 100% (120/120), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (111/111), done.
+Writing objects: 100% (120/120), 560.91 KiB | 5.55 MiB/s, done.
+Total 120 (delta 4), reused 0 (delta 0)
+remote: Resolving deltas: 100% (4/4), done.
+remote:
+remote: Create a pull request for 'source' on GitHub by visiting:
+remote:      https://github.com/barondandi/barondandi.github.io/pull/new/source
+remote:
+To https://github.com/barondandi/barondandi.github.io.git
+ * [new branch]      source -> source
+```
+
+### Deploy a new post
+
+**Adding a new post**
+```shell
+hexo new {postname}
+```
+More info: [Writing](https://hexo.io/docs/writing.html)
+
+**Edit the new post file**
+```shell
+nano source/_posts/{postname}.md
+```
+
+**Check existing posts**
+```shell
+hexo list post
+```
+**Run server**
+
+```shell
+$ hexo server
+```
+
+More info: [Server](https://hexo.io/docs/server.html)
+
+_Generate static files_
+
+```shell
+$ hexo generate
+```
+
+More info: [Generating](https://hexo.io/docs/generating.html)
+
+_Deploy to remote sites_
+
+```shell
 $ hexo deploy
+```
 
-At this point, you should be able to see your blog at http://{blogname}.github.io.
-Add the source to the github repository (optional)
+More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
 
-To maintain version of the code, you can make another branch and push the commits.
+**OR Regenerate files and deploy at once**
+```shell
+hexo generate -d
+```
 
-$ git remote add origin {your-git-repo-url}
-$ git checkout -b source
-$ git push origin source
+**Removing a post**
+As there is no command to delete a post on Hexo, we need to follow this steps :
+1. Delete the post under source/\_post folder
+2. Run `hexo clean` to delete the database (db.json) and assets folder
+3. Run `hexo generate` to generate the new blog without your deleted post
+4. Run `hexo deploy` to deploy your blog
 
-Deploy new post
+This is the output:
 
-Adding a new post
+```shell
+[barond@fedora barondandi.github.io]$ hexo new install-hexo
+Inferno is in development mode.
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+INFO  === Checking the configuration file ===
+INFO  === Registering Hexo extensions ===
+INFO  Created: ~/BLOG/barondandi.github.io/source/_posts/install-hexo.md
 
-1
+[barond@fedora barondandi.github.io]$ nano source/_posts/install-hexo.md
 
+[barond@fedora barondandi.github.io]$ hexo list post
+Inferno is in development mode.
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+INFO  === Checking the configuration file ===
+INFO  === Registering Hexo extensions ===
+INFO  Start processing
+Date        Title                                      Path                    Category  Tags
+2020-05-08  Hello World                                _posts/hello-world.md
+2020-05-08  Blog on GitHub with Hexo and Icarus theme  _posts/install-hexo.md            blog Hexo Icarus GitHub
 
+[barond@fedora barondandi.github.io]$ rm source/_posts/hello-world.md
 
-$ hexo new {postname}
+[barond@fedora barondandi.github.io]$ hexo clean
+Inferno is in development mode.
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+INFO  === Checking the configuration file ===
+INFO  === Registering Hexo extensions ===
+INFO  Deleted database.
+INFO  Deleted public folder.
 
-Edit the new post file
-
-1
-
-
-
-$ vi source/_posts/{postname}.md
-
-Regenerate files and deploy at once
-
-1
-
-
-
-$ hexo generate -d
+[barond@fedora barondandi.github.io]$ hexo generate -d
+Inferno is in development mode.
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+INFO  === Checking the configuration file ===
+INFO  === Registering Hexo extensions ===
+INFO  Start processing
+INFO  Files loaded in 549 ms
+INFO  Generated: content.json
+INFO  Generated: index.html
+INFO  Generated: js/algolia.js
+INFO  Generated: js/insight.js
+INFO  Generated: js/google_cse.js
+INFO  Generated: categories/index.html
+INFO  Generated: archives/index.html
+INFO  Generated: tags/index.html
+INFO  Generated: img/avatar.png
+INFO  Generated: js/animation.js
+INFO  Generated: js/back_to_top.js
+INFO  Generated: js/main.js
+INFO  Generated: img/favicon.svg
+INFO  Generated: img/logo.svg
+INFO  Generated: img/razor-bottom-black.svg
+INFO  Generated: img/razor-top-black.svg
+INFO  Generated: img/og_image.png
+INFO  Generated: img/thumbnail.svg
+INFO  Generated: archives/2020/05/index.html
+INFO  Generated: tags/blog-Hexo-Icarus-GitHub/index.html
+INFO  Generated: archives/2020/index.html
+INFO  Generated: css/cyberpunk.css
+INFO  Generated: css/default.css
+INFO  Generated: css/style.css
+INFO  Generated: 2020/05/08/install-hexo/index.html
+INFO  25 files generated in 3.76 s
+INFO  Deploying: git
+INFO  Clearing .deploy_git folder...
+INFO  Copying files from public folder...
+INFO  Copying files from extend dirs...
+[master ccc8f2f] Site updated: 2020-05-08 04:33:28
+ 12 files changed, 105 insertions(+), 106 deletions(-)
+ delete mode 100644 2020/05/08/hello-world/index.html
+ create mode 100644 2020/05/08/install-hexo/index.html
+ rewrite content.json (100%)
+ delete mode 100644 img/avatar.jpg
+ delete mode 100644 img/logo.jpg
+ rewrite index.html (62%)
+ create mode 100644 tags/blog-Hexo-Icarus-GitHub/index.html
+ rewrite tags/index.html (72%)
+Username for 'https://github.com': barondandi
+Password for 'https://barondandi@github.com':
+Enumerating objects: 39, done.
+Counting objects: 100% (39/39), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (22/22), 3.04 KiB | 1.01 MiB/s, done.
+Total 22 (delta 9), reused 0 (delta 0)
+remote: Resolving deltas: 100% (9/9), completed with 2 local objects.
+To https://github.com/barondandi/barondandi.github.io.git
+   b76ed22..ccc8f2f  HEAD -> master
+Branch 'master' set up to track remote branch 'master' from 'https://github.com/barondandi/barondandi.github.io.git'.
+INFO  Deploy done: git
+[barond@fedora barondandi.github.io]$ hexo list post
+Inferno is in development mode.
+INFO  =======================================
+ ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗
+ ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝
+ ██║██║     ███████║██████╔╝██║   ██║███████╗
+ ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║
+ ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║
+ ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+=============================================
+INFO  === Checking package dependencies ===
+INFO  === Checking the configuration file ===
+INFO  === Registering Hexo extensions ===
+INFO  Start processing
+Date        Title                                      Path                    Category  Tags
+2020-05-08  Blog on GitHub with Hexo and Icarus theme  _posts/install-hexo.md            blog Hexo Icarus GitHub
+```
 
 Happy posting!
-__
-
 
 ## 3. References and Credits
 
