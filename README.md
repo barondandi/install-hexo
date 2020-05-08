@@ -3,7 +3,7 @@ Blog on GitHub with Hexo and Icarus theme
 
 > I wanted to create a simple blog for documentation and how-to I would be writing in markup language, as GitHub repositories. I would also like to have automated the posting dates, menus, tags, navigation and adapted view for mobile devices.
 
-I will not be thorough, just dot the guidelines, and changes I had to make to the References below, due to updated software and my specific Linux host OS (Fedora 23). For additional information links are provided in each chapter.
+I will not be thorough, just dot the guidelines, and changes I had to make to the References below, due to updated software and my specific Linux host OS (Fedora 23). For additional information, links are provided in each chapter.
 
 1.  [Prerequisites](#1.-Prerequisites)
     -   [Install Git](#Install-Git)
@@ -501,7 +501,7 @@ hexo generate -d
 **Removing a post**
 As there is no command to delete a post on Hexo, we need to follow this steps :
 1. Delete the post under source/\_post folder
-2. Run `hexo clean` to delete the database (db.json) and assets folder
+2. (OPTIONAL) Run `hexo clean` to delete the database (db.json) and assets folder. _**Make sure to back-up any content that you have posted inside "public" folder as it will be purged as well (for example images).**_
 3. Run `hexo generate` to generate the new blog without your deleted post
 4. Run `hexo deploy` to deploy your blog
 
