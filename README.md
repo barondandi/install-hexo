@@ -8,7 +8,7 @@ I will not be thorough, just dot the guidelines, and changes I had to make to th
 1.  [Prerequisites](#1.-Prerequisites)
     -   [Install Git](#Install-Git)
     -   [Install Node.js](#Install-Node.js)
-    -   [Install Hexo](#Install-Hexo)
+    -   [Hexo installation](#Hexo-installation)
 2.  [Setting up Hexo with GitHub](#2.-Setting-up-Hexo-with-GitHub)
     -   [Setup a blog](#Setup-a-blog)
     -   [Install a theme](#Install-a-theme)
@@ -73,7 +73,7 @@ lts/dubnium -> v10.20.1 (-> N/A)
 lts/erbium -> v12.16.3
 ```
 
-### Install Hexo
+### Hexo installation
 
 Once all the requirements are installed, you can install Hexo with npm. Detailed and advanced procedure is explained here: [https://hexo.io/docs/#Install-Hexo](https://hexo.io/docs/#Install-Hexo).
 
