@@ -648,7 +648,9 @@ Date        Title                                      Path                    C
 2020-05-08  Blog on GitHub with Hexo and Icarus theme  _posts/install-hexo.md            blog Hexo Icarus GitHub
 ```
 
-Happy posting!
+And this is the aspect of the blog before tinkering!:
+![](/blog.png)
+
 
 ## 3. References and Credits
 
