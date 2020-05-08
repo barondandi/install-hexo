@@ -14,7 +14,7 @@ I will not be thorough, just dot the guidelines, and changes I had to make to th
 2.  [Setting up Hexo with GitHub](#2.-Setting-up-Hexo-with-GitHub)
     -   [Setup a blog](#Setup-a-blog)
     -   [Install a theme](#Install-a-theme)
-    -   [Edit YAML configuration files ](#Edit-YAML-configuration-files)
+    -   [Edit YAML configuration files](#Edit-YAML-configuration-files)
 3.  [References and Credits](#3.-References-and-Credits)
 4.  [Summary](#4.-Summary)
 
@@ -194,17 +194,34 @@ git submodule add https://github.com/ppoffice/hexo-theme-icarus.git themes/icaru
 
 ### Edit YAML configuration files
 
-Copy \_config.yml.example to \_config.yml
+You can modify the files using `vi`, `nano`, Hexo commands ([https://hexo.io/docs/commands](https://hexo.io/docs/commands)) or any text editor you feel comfortable with.
 
-1
+> NOTE: I would recommend Atom or Visual Studio, as they come with a lot of plugins that make life a lot easier.
 
-
-´´´shell
-    $ cp themes/{theme-name}/_config.yml.example themes/{theme-name}/_config.yml
+We start by editing the \_config.yml file in the main folder. A description of all the parameters we can change is here: [https://hexo.io/docs/configuration](https://hexo.io/docs/configuration).
 
 
-*Some themes may differ on _config.yml.example file name
-Refer to the theme docs
+Some themes may have an example configuration file, so we would start by copying that theme example file to the `_config.yml` file in the theme folder:
+
+´´´Shell
+cp themes/{theme-name}/\_config.yml.example themes/{theme-name}/\_config.yml
+´´´
+
+
+
+
+Next, activate Icarus in your site’s _config.yml file:
+_config.yml
+theme: icarus
+
+or use the hexo command to change the theme to Icarus:
+Shell
+hexo config theme icarus
+
+
+
+
+
 
 Update _config.yml to use newly installed theme. (Don't get confused with the theme config file)
 
