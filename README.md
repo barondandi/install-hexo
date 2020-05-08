@@ -499,6 +499,7 @@ hexo generate -d
 ```
 
 **Removing a post**
+
 As there is no command to delete a post on Hexo, we need to follow this steps :
 1. Delete the post under source/\_post folder
 2. (OPTIONAL) Run `hexo clean` to delete the database (db.json) and assets folder. _**Make sure to back-up any content that you have posted inside "public" folder as it will be purged as well (for example images).**_
